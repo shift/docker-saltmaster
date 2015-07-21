@@ -15,7 +15,7 @@ Docker image inheritance:
 
  * 4505/tcp - ZeroMQ
  * 4506/tcp - ZeroMQ
- * 4510/udp - RAET
+ * 4506/udp - RAET
 
 ## Example usage
 
