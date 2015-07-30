@@ -17,7 +17,10 @@ RUN apt-get update \
     && python setup.py install \
     && mkdir -p /etc/salt /var/log/salt \
     && cp -av conf/* /etc/salt \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && echo "Host github.com\n  IdentityFile /etc/salt/repo.key" \
+    && ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts \
+    && ssh-keyscan -H bitbucket.com >> /etc/ssh/ssh_known_hosts
 
 VOLUME /etc/salt
 VOLUME /srv/pillar
