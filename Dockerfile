@@ -12,7 +12,7 @@ RUN apt-get update \
     && pip install -r requirements/zeromq.txt \
     && pip install -r requirements/raet.txt \
     && pip install -r requirements/dev_python27.txt \
-    && pip install pygit2 M2Crypto Mako msgpack_pure \
+    && pip install pygit2 M2Crypto Mako msgpack_pure GitPython \
     && pip install -i https://pypi.binstar.org/pypi/simple python-etcd \
     && python setup.py install \
     && mkdir -p /etc/salt /var/log/salt \
