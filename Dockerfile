@@ -26,6 +26,7 @@ VOLUME /srv/pillar
 VOLUME /srv/salt
 VOLUME /srv/reactor
 VOLUME /var/log/salt
+VOLUME /var/cache/salt
 
 # ZeroMQ ports
 EXPOSE 4505/tcp
