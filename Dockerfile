@@ -3,16 +3,41 @@ FROM shift/ubuntu:15.04
 MAINTAINER Vincent Palmer <shift@someone.section.me>
 
 RUN apt-get update \
-    && apt-get install git-core python-pip python-dev \
-      libzmq3-dev libzmq3 libyaml-dev libgit2-dev \
-      libssh2-1-dev python-cffi pkg-config swig --yes --force-yes \
-    && git clone https://github.com/saltstack/salt.git /opt/salt \
-    && cd /opt/salt \
+    && apt-get install git-core python-dev \
+      libyaml-dev libffi-dev libssl-dev \
+      libssh2-1-dev cmake pkg-config swig curl libtool autoconf libsodium-dev --yes --force-yes \
+    && git clone https://github.com/libgit2/libgit2.git \
+    && cd libgit2 \
+    && git checkout v0.22.1 \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make \
+    && make install \
+    && ldconfig \
+    && cd ../.. \
+    && rm -rf libgit2 \
+    && git clone https://github.com/zeromq/libzmq.git \
+    && cd libzmq \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make \
+    && make install \
+    && cd \
+    && rm -rf libzmq \
+    && curl -O https://raw.githubusercontent.com/pypa/pip/1.5.6/contrib/get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py \
+    && git clone https://github.com/saltstack/salt.git /opt/salt 
+WORKDIR /opt/salt
+RUN cd /opt/salt \
     && pip install -r requirements/base.txt \
-    && pip install -r requirements/zeromq.txt \
-    && pip install -r requirements/raet.txt \
-    && pip install pygit2 M2Crypto Mako msgpack_pure GitPython \
+    && pip install -r requirements/zeromq.txt
+RUN pip install -r requirements/raet.txt \
+    && pip install cffi pygit2==0.22.1 M2Crypto Mako msgpack_pure GitPython \
     && pip install -i https://pypi.binstar.org/pypi/simple python-etcd \
+    && git checkout v2015.5.5 \
     && python setup.py install \
     && mkdir -p /etc/salt /var/log/salt \
     && cp -av conf/* /etc/salt \
