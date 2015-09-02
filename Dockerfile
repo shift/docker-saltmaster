@@ -37,7 +37,7 @@ RUN cd /opt/salt \
 RUN pip install -r requirements/raet.txt \
     && pip install cffi pygit2==0.22.1 M2Crypto Mako msgpack_pure GitPython \
     && pip install -i https://pypi.binstar.org/pypi/simple python-etcd \
-    && git checkout v2015.5.5 \
+    && git checkout origin/2015.8 \
     && python setup.py install \
     && mkdir -p /etc/salt /var/log/salt \
     && cp -av conf/* /etc/salt \
